@@ -1,0 +1,12 @@
+_bmad/
+_bmad-output/
+.opencode/
+docs/
+*.log
+.git/
+node_modules/
+src/test/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
