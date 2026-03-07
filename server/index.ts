@@ -23,10 +23,10 @@ app.use('/api/epics', createEpicsRouter(projectRoot))
 app.use('/api/sprint', createSprintRouter(projectRoot))
 app.use('/api/refresh', createRefreshRouter(projectRoot))
 
-app.use(express.static(path.join(__dirname, '../client')))
+app.use(express.static(path.join(__dirname, '../dist/client')))
 
 app.use((_req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html'))
+  res.sendFile(path.join(__dirname, '../dist/client/index.html'))
 })
 
 app.listen(PORT, () => {

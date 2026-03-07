@@ -27,9 +27,9 @@ export function BmadDataProvider({ children }: { children: ReactNode }) {
     setError(null)
     try {
       const [storiesRes, epicsRes, sprintRes] = await Promise.all([
-        api.get<Story[]>('/api/stories'),
-        api.get<Epic[]>('/api/epics'),
-        api.get<SprintStatus>('/api/sprint'),
+        api.get<Story[]>('/stories'),
+        api.get<Epic[]>('/epics'),
+        api.get<SprintStatus>('/sprint'),
       ])
       setStories(storiesRes.data)
       setEpics(epicsRes.data)
