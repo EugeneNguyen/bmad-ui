@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -13,18 +12,20 @@ const __dirname = path.dirname(__filename)
 
 const app = express()
 const PORT = process.env.PORT || 3000
-
 const projectRoot = process.cwd()
 
 app.use(express.json())
 
+// API routes
 app.use('/api/stories', createStoriesRouter(projectRoot))
 app.use('/api/epics', createEpicsRouter(projectRoot))
 app.use('/api/sprint', createSprintRouter(projectRoot))
 app.use('/api/refresh', createRefreshRouter(projectRoot))
 
+// Serve static files in production
 app.use(express.static(path.join(__dirname, '../dist/client')))
 
+// SPA fallback - serve index.html for all other routes
 app.use((_req, res) => {
   res.sendFile(path.join(__dirname, '../dist/client/index.html'))
 })

@@ -1,34 +1,24 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, waitFor } from '@testing-library/react'
-import { createElement, ReactNode } from 'react'
 import { useStories } from './useStories'
-import { BmadDataProvider } from '@/context/BmadDataContext'
-
-const mockApiGet = vi.fn()
+import * as api from '@/lib/api'
 
 vi.mock('@/lib/api', () => ({
   api: {
-    get: (...args: unknown[]) => mockApiGet(...args),
+    get: vi.fn(),
   },
 }))
 
-const wrapper = ({ children }: { children: ReactNode }) =>
-  createElement(BmadDataProvider, null, children)
-
 describe('useStories', () => {
   beforeEach(() => {
-    mockApiGet.mockReset()
-    mockApiGet.mockImplementation((url: string) => {
-      if (url === '/api/stories') return Promise.resolve({ data: [{ id: '1', title: 'Test Story' }] })
-      if (url === '/api/epics') return Promise.resolve({ data: [] })
-      if (url === '/api/sprint') return Promise.resolve({ data: null })
-      return Promise.reject(new Error('Unknown endpoint'))
-    })
+    vi.clearAllMocks()
   })
 
-  it('should return stories from context', async () => {
-    const { result } = renderHook(() => useStories(), { wrapper })
-    
+  it('should return stories from API', async () => {
+    vi.mocked(api.api.get).mockResolvedValue({ data: [{ id: '1', title: 'Test Story' }] })
+
+    const { result } = renderHook(() => useStories())
+
     await waitFor(() => {
       expect(result.current.stories).toHaveLength(1)
       expect(result.current.stories[0]?.title).toBe('Test Story')
@@ -36,42 +26,49 @@ describe('useStories', () => {
   })
 
   it('should return loading boolean', async () => {
-    const { result } = renderHook(() => useStories(), { wrapper })
-    
-    await waitFor(() => {
-      expect(typeof result.current.loading).toBe('boolean')
-    })
+    vi.mocked(api.api.get).mockImplementation(() => new Promise(() => {}))
+
+    const { result } = renderHook(() => useStories())
+
+    expect(result.current.loading).toBe(true)
   })
 
-  it('should return error object or null', async () => {
-    const { result } = renderHook(() => useStories(), { wrapper })
-    
+  it('should return error on failure', async () => {
+    vi.mocked(api.api.get).mockRejectedValue(new Error('Failed to fetch'))
+
+    const { result } = renderHook(() => useStories())
+
     await waitFor(() => {
-      expect(result.current.error).toBeNull()
+      expect(result.current.error).toBeInstanceOf(Error)
+      expect(result.current.error?.message).toBe('Failed to fetch')
     })
   })
 
   it('should return refetch function', async () => {
-    const { result } = renderHook(() => useStories(), { wrapper })
-    
+    vi.mocked(api.api.get).mockResolvedValue({ data: [] })
+
+    const { result } = renderHook(() => useStories())
+
     await waitFor(() => {
       expect(typeof result.current.refetch).toBe('function')
     })
   })
 
   it('should refetch data when refetch is called', async () => {
-    const { result } = renderHook(() => useStories(), { wrapper })
-    
+    vi.mocked(api.api.get).mockResolvedValue({ data: [{ id: '1', title: 'Test Story' }] })
+
+    const { result } = renderHook(() => useStories())
+
     await waitFor(() => {
       expect(result.current.stories).toHaveLength(1)
     })
-    
-    const initialCallCount = mockApiGet.mock.calls.length
-    
+
+    const initialCallCount = vi.mocked(api.api.get).mock.calls.length
+
     result.current.refetch()
-    
+
     await waitFor(() => {
-      expect(mockApiGet.mock.calls.length).toBeGreaterThan(initialCallCount)
+      expect(vi.mocked(api.api.get).mock.calls.length).toBeGreaterThan(initialCallCount)
     })
   })
 })

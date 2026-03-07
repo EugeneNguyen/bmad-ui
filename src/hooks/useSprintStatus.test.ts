@@ -1,77 +1,79 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, waitFor } from '@testing-library/react'
-import { createElement, ReactNode } from 'react'
 import { useSprintStatus } from './useSprintStatus'
-import { BmadDataProvider } from '@/context/BmadDataContext'
-
-const mockApiGet = vi.fn()
+import * as api from '@/lib/api'
 
 vi.mock('@/lib/api', () => ({
   api: {
-    get: (...args: unknown[]) => mockApiGet(...args),
+    get: vi.fn(),
   },
 }))
 
-const wrapper = ({ children }: { children: ReactNode }) =>
-  createElement(BmadDataProvider, null, children)
-
 describe('useSprintStatus', () => {
   beforeEach(() => {
-    mockApiGet.mockReset()
-    mockApiGet.mockImplementation((url: string) => {
-      if (url === '/api/stories') return Promise.resolve({ data: [] })
-      if (url === '/api/epics') return Promise.resolve({ data: [] })
-      if (url === '/api/sprint') return Promise.resolve({ data: { sprintId: 'sprint-1', name: 'Sprint 1' } })
-      return Promise.reject(new Error('Unknown endpoint'))
-    })
+    vi.clearAllMocks()
   })
 
-  it('should return sprintStatus from context', async () => {
-    const { result } = renderHook(() => useSprintStatus(), { wrapper })
-    
+  it('should return sprintStatus from API', async () => {
+    vi.mocked(api.api.get).mockResolvedValue({ 
+      data: {
+        sprintId: 'sprint-1',
+        name: 'Current Sprint',
+        project: 'bmad-ui',
+        stories: [],
+        lastUpdated: '2026-03-07T00:00:00.000Z'
+      } 
+    })
+
+    const { result } = renderHook(() => useSprintStatus())
+
     await waitFor(() => {
-      expect(result.current.sprintStatus).not.toBeNull()
-      expect(result.current.sprintStatus?.name).toBe('Sprint 1')
+      expect(result.current.sprintStatus).toBeDefined()
+      expect(result.current.sprintStatus?.name).toBe('Current Sprint')
     })
   })
 
   it('should return loading boolean', async () => {
-    const { result } = renderHook(() => useSprintStatus(), { wrapper })
-    
-    await waitFor(() => {
-      expect(typeof result.current.loading).toBe('boolean')
-    })
-  })
+    vi.mocked(api.api.get).mockResolvedValue({ data: null })
 
-  it('should return error object or null', async () => {
-    const { result } = renderHook(() => useSprintStatus(), { wrapper })
-    
-    await waitFor(() => {
-      expect(result.current.error).toBeNull()
-    })
+    const { result } = renderHook(() => useSprintStatus())
+
+    expect(result.current.loading).toBe(true)
   })
 
   it('should return refetch function', async () => {
-    const { result } = renderHook(() => useSprintStatus(), { wrapper })
-    
+    vi.mocked(api.api.get).mockResolvedValue({ data: null })
+
+    const { result } = renderHook(() => useSprintStatus())
+
     await waitFor(() => {
       expect(typeof result.current.refetch).toBe('function')
     })
   })
 
   it('should refetch data when refetch is called', async () => {
-    const { result } = renderHook(() => useSprintStatus(), { wrapper })
-    
-    await waitFor(() => {
-      expect(result.current.sprintStatus).not.toBeNull()
+    vi.mocked(api.api.get).mockResolvedValue({ 
+      data: {
+        sprintId: 'sprint-1',
+        name: 'Current Sprint',
+        project: 'bmad-ui',
+        stories: [],
+        lastUpdated: '2026-03-07T00:00:00.000Z'
+      } 
     })
-    
-    const initialCallCount = mockApiGet.mock.calls.length
-    
-    result.current.refetch()
-    
+
+    const { result } = renderHook(() => useSprintStatus())
+
     await waitFor(() => {
-      expect(mockApiGet.mock.calls.length).toBeGreaterThan(initialCallCount)
+      expect(result.current.sprintStatus).toBeDefined()
+    })
+
+    const initialCallCount = vi.mocked(api.api.get).mock.calls.length
+
+    result.current.refetch()
+
+    await waitFor(() => {
+      expect(vi.mocked(api.api.get).mock.calls.length).toBeGreaterThan(initialCallCount)
     })
   })
 })

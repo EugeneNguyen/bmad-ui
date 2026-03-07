@@ -49,7 +49,7 @@ development_status:
 
   # Epic 2: Sprint Visualization
   epic-2: in-progress
-  2-1-kanban-board-layout: review
+  2-1-kanban-board-layout: done
   2-2-story-card-display: ready-for-dev
   2-3-story-distribution-by-lane: ready-for-dev
   epic-2-retrospective: optional

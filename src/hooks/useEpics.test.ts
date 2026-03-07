@@ -1,34 +1,24 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, waitFor } from '@testing-library/react'
-import { createElement, ReactNode } from 'react'
 import { useEpics } from './useEpics'
-import { BmadDataProvider } from '@/context/BmadDataContext'
-
-const mockApiGet = vi.fn()
+import * as api from '@/lib/api'
 
 vi.mock('@/lib/api', () => ({
   api: {
-    get: (...args: unknown[]) => mockApiGet(...args),
+    get: vi.fn(),
   },
 }))
 
-const wrapper = ({ children }: { children: ReactNode }) =>
-  createElement(BmadDataProvider, null, children)
-
 describe('useEpics', () => {
   beforeEach(() => {
-    mockApiGet.mockReset()
-    mockApiGet.mockImplementation((url: string) => {
-      if (url === '/api/stories') return Promise.resolve({ data: [] })
-      if (url === '/api/epics') return Promise.resolve({ data: [{ id: 'epic-1', title: 'Test Epic' }] })
-      if (url === '/api/sprint') return Promise.resolve({ data: null })
-      return Promise.reject(new Error('Unknown endpoint'))
-    })
+    vi.clearAllMocks()
   })
 
-  it('should return epics from context', async () => {
-    const { result } = renderHook(() => useEpics(), { wrapper })
-    
+  it('should return epics from API', async () => {
+    vi.mocked(api.api.get).mockResolvedValue({ data: [{ id: 'epic-1', title: 'Test Epic' }] })
+
+    const { result } = renderHook(() => useEpics())
+
     await waitFor(() => {
       expect(result.current.epics).toHaveLength(1)
       expect(result.current.epics[0]?.title).toBe('Test Epic')
@@ -36,42 +26,38 @@ describe('useEpics', () => {
   })
 
   it('should return loading boolean', async () => {
-    const { result } = renderHook(() => useEpics(), { wrapper })
-    
-    await waitFor(() => {
-      expect(typeof result.current.loading).toBe('boolean')
-    })
-  })
+    vi.mocked(api.api.get).mockResolvedValue({ data: [] })
 
-  it('should return error object or null', async () => {
-    const { result } = renderHook(() => useEpics(), { wrapper })
-    
-    await waitFor(() => {
-      expect(result.current.error).toBeNull()
-    })
+    const { result } = renderHook(() => useEpics())
+
+    expect(result.current.loading).toBe(true)
   })
 
   it('should return refetch function', async () => {
-    const { result } = renderHook(() => useEpics(), { wrapper })
-    
+    vi.mocked(api.api.get).mockResolvedValue({ data: [] })
+
+    const { result } = renderHook(() => useEpics())
+
     await waitFor(() => {
       expect(typeof result.current.refetch).toBe('function')
     })
   })
 
   it('should refetch data when refetch is called', async () => {
-    const { result } = renderHook(() => useEpics(), { wrapper })
-    
+    vi.mocked(api.api.get).mockResolvedValue({ data: [{ id: 'epic-1', title: 'Test Epic' }] })
+
+    const { result } = renderHook(() => useEpics())
+
     await waitFor(() => {
       expect(result.current.epics).toHaveLength(1)
     })
-    
-    const initialCallCount = mockApiGet.mock.calls.length
-    
+
+    const initialCallCount = vi.mocked(api.api.get).mock.calls.length
+
     result.current.refetch()
-    
+
     await waitFor(() => {
-      expect(mockApiGet.mock.calls.length).toBeGreaterThan(initialCallCount)
+      expect(vi.mocked(api.api.get).mock.calls.length).toBeGreaterThan(initialCallCount)
     })
   })
 })

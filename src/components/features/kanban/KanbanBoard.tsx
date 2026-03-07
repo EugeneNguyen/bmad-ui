@@ -11,7 +11,12 @@ export interface KanbanBoardProps {
   onStoryClick?: (story: Story) => void
 }
 
-export default function KanbanBoard({ stories, epics: _epics, sprintStatus: _sprintStatus, onStoryClick }: KanbanBoardProps) {
+export default function KanbanBoard({
+  stories,
+  epics: _epics,
+  sprintStatus: _sprintStatus,
+  onStoryClick,
+}: KanbanBoardProps) {
   const lanes = useMemo(() => {
     const grouped: Record<string, Story[]> = {
       ready: [],

@@ -1,4 +1,5 @@
 import type { Story, StoryStatus } from '@/types/bmad'
+import StoryCard from './StoryCard'
 
 export interface LaneProps {
   status: StoryStatus
@@ -39,22 +40,7 @@ export default function Lane({ status, title, stories, onStoryClick }: LaneProps
       ) : (
         <div className="flex flex-col gap-3">
           {stories.map((story) => (
-            <div
-              key={story.id}
-              role="listitem"
-              className="p-4 bg-white rounded border border-slate-200 hover:border-slate-300 cursor-pointer transition-colors"
-              onClick={() => onStoryClick?.(story)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault()
-                  onStoryClick?.(story)
-                }
-              }}
-              tabIndex={0}
-            >
-              <h3 className="font-medium text-slate-900 mb-2">{story.title}</h3>
-              <p className="text-sm text-slate-600 line-clamp-2">{story.description}</p>
-            </div>
+            <StoryCard key={story.id} story={story} onClick={onStoryClick} />
           ))}
         </div>
       )}
