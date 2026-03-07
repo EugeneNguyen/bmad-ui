@@ -1,5 +1,5 @@
 import type { Story, StoryStatus } from '@/types/bmad'
-import StoryCard from './StoryCard'
+import StoryCard from '@/components/ui/molecules/StoryCard'
 
 export interface LaneProps {
   status: StoryStatus

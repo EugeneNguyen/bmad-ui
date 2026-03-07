@@ -50,7 +50,7 @@ development_status:
   # Epic 2: Sprint Visualization
   epic-2: in-progress
   2-1-kanban-board-layout: done
-  2-2-story-card-display: ready-for-dev
+  2-2-story-card-display: in-progress
   2-3-story-distribution-by-lane: ready-for-dev
   epic-2-retrospective: optional
 
@@ -64,6 +64,6 @@ development_status:
   # Epic 4: Navigation & Change Detection
   epic-4: in-progress
   4-1-epic-filter: ready-for-dev
-  4-2-change-detection-and-visual-indicators: backlog
-  4-3-manual-refresh-and-change-summary: backlog
+  4-2-change-detection-and-visual-indicators: ready-for-dev
+  4-3-manual-refresh-and-change-summary: ready-for-dev
   epic-4-retrospective: optional
