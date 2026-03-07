@@ -41,17 +41,17 @@ outputFile: '{test_artifacts}/traceability-report.md'
 ### 1. Read Phase 1 Coverage Matrix
 
 ```javascript
-const matrixPath = '/tmp/tea-trace-coverage-matrix-{{timestamp}}.json';
-const coverageMatrix = JSON.parse(fs.readFileSync(matrixPath, 'utf8'));
+const matrixPath = '/tmp/tea-trace-coverage-matrix-{{timestamp}}.json'
+const coverageMatrix = JSON.parse(fs.readFileSync(matrixPath, 'utf8'))
 
-console.log('✅ Phase 1 coverage matrix loaded');
+console.log('✅ Phase 1 coverage matrix loaded')
 ```
 
 **Verify Phase 1 complete:**
 
 ```javascript
 if (coverageMatrix.phase !== 'PHASE_1_COMPLETE') {
-  throw new Error('Phase 1 not complete - cannot proceed to gate decision');
+  throw new Error('Phase 1 not complete - cannot proceed to gate decision')
 }
 ```
 
@@ -62,54 +62,54 @@ if (coverageMatrix.phase !== 'PHASE_1_COMPLETE') {
 **Decision Tree:**
 
 ```javascript
-const stats = coverageMatrix.coverage_statistics;
-const p0Coverage = stats.priority_breakdown.P0.percentage;
-const p1Coverage = stats.priority_breakdown.P1.percentage;
-const hasP1Requirements = (stats.priority_breakdown.P1.total || 0) > 0;
-const effectiveP1Coverage = hasP1Requirements ? p1Coverage : 100;
-const overallCoverage = stats.overall_coverage_percentage;
-const criticalGaps = coverageMatrix.gap_analysis.critical_gaps.length;
+const stats = coverageMatrix.coverage_statistics
+const p0Coverage = stats.priority_breakdown.P0.percentage
+const p1Coverage = stats.priority_breakdown.P1.percentage
+const hasP1Requirements = (stats.priority_breakdown.P1.total || 0) > 0
+const effectiveP1Coverage = hasP1Requirements ? p1Coverage : 100
+const overallCoverage = stats.overall_coverage_percentage
+const criticalGaps = coverageMatrix.gap_analysis.critical_gaps.length
 
-let gateDecision;
-let rationale;
+let gateDecision
+let rationale
 
 // Rule 1: P0 coverage must be 100%
 if (p0Coverage < 100) {
-  gateDecision = 'FAIL';
-  rationale = `P0 coverage is ${p0Coverage}% (required: 100%). ${criticalGaps} critical requirements uncovered.`;
+  gateDecision = 'FAIL'
+  rationale = `P0 coverage is ${p0Coverage}% (required: 100%). ${criticalGaps} critical requirements uncovered.`
 }
 // Rule 2: Overall coverage must be >= 80%
 else if (overallCoverage < 80) {
-  gateDecision = 'FAIL';
-  rationale = `Overall coverage is ${overallCoverage}% (minimum: 80%). Significant gaps exist.`;
+  gateDecision = 'FAIL'
+  rationale = `Overall coverage is ${overallCoverage}% (minimum: 80%). Significant gaps exist.`
 }
 // Rule 3: P1 coverage < 80% → FAIL
 else if (effectiveP1Coverage < 80) {
-  gateDecision = 'FAIL';
+  gateDecision = 'FAIL'
   rationale = hasP1Requirements
     ? `P1 coverage is ${effectiveP1Coverage}% (minimum: 80%). High-priority gaps must be addressed.`
-    : `P1 requirements are not present; continuing with remaining gate criteria.`;
+    : `P1 requirements are not present; continuing with remaining gate criteria.`
 }
 // Rule 4: P1 coverage >= 90% and overall >= 80% with P0 at 100% → PASS
 else if (effectiveP1Coverage >= 90) {
-  gateDecision = 'PASS';
+  gateDecision = 'PASS'
   rationale = hasP1Requirements
     ? `P0 coverage is 100%, P1 coverage is ${effectiveP1Coverage}% (target: 90%), and overall coverage is ${overallCoverage}% (minimum: 80%).`
-    : `P0 coverage is 100% and overall coverage is ${overallCoverage}% (minimum: 80%). No P1 requirements detected.`;
+    : `P0 coverage is 100% and overall coverage is ${overallCoverage}% (minimum: 80%). No P1 requirements detected.`
 }
 // Rule 5: P1 coverage 80-89% with P0 at 100% and overall >= 80% → CONCERNS
 else if (effectiveP1Coverage >= 80) {
-  gateDecision = 'CONCERNS';
+  gateDecision = 'CONCERNS'
   rationale = hasP1Requirements
     ? `P0 coverage is 100% and overall coverage is ${overallCoverage}% (minimum: 80%), but P1 coverage is ${effectiveP1Coverage}% (target: 90%).`
-    : `P0 coverage is 100% and overall coverage is ${overallCoverage}% (minimum: 80%), but additional non-P1 gaps need mitigation.`;
+    : `P0 coverage is 100% and overall coverage is ${overallCoverage}% (minimum: 80%), but additional non-P1 gaps need mitigation.`
 }
 
 // Rule 6: Manual waiver option
-const manualWaiver = false; // Can be set via config or user input
+const manualWaiver = false // Can be set via config or user input
 if (manualWaiver) {
-  gateDecision = 'WAIVED';
-  rationale += ' Manual waiver applied by stakeholder.';
+  gateDecision = 'WAIVED'
+  rationale += ' Manual waiver applied by stakeholder.'
 }
 ```
 
@@ -133,17 +133,20 @@ const gateReport = {
     p1_coverage_target_pass: '90%',
     p1_coverage_minimum: '80%',
     p1_coverage_actual: `${effectiveP1Coverage}%`,
-    p1_status: effectiveP1Coverage >= 90 ? 'MET' : effectiveP1Coverage >= 80 ? 'PARTIAL' : 'NOT MET',
+    p1_status:
+      effectiveP1Coverage >= 90 ? 'MET' : effectiveP1Coverage >= 80 ? 'PARTIAL' : 'NOT MET',
 
     overall_coverage_minimum: '80%',
     overall_coverage_actual: `${overallCoverage}%`,
     overall_status: overallCoverage >= 80 ? 'MET' : 'NOT MET',
   },
 
-  uncovered_requirements: coverageMatrix.gap_analysis.critical_gaps.concat(coverageMatrix.gap_analysis.high_gaps),
+  uncovered_requirements: coverageMatrix.gap_analysis.critical_gaps.concat(
+    coverageMatrix.gap_analysis.high_gaps
+  ),
 
   recommendations: coverageMatrix.recommendations,
-};
+}
 ```
 
 ---
@@ -181,7 +184,7 @@ const gateReport = {
 **Save to:**
 
 ```javascript
-fs.writeFileSync('{outputFile}', reportContent, 'utf8');
+fs.writeFileSync('{outputFile}', reportContent, 'utf8')
 ```
 
 ---

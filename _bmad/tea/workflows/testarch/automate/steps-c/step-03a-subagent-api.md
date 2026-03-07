@@ -54,7 +54,7 @@ For each API endpoint, create test file in `tests/api/[feature].spec.ts`:
 **Test Structure:**
 
 ```typescript
-import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test'
 // If Playwright Utils enabled:
 // import { apiRequest } from '@playwright-utils/api';
 
@@ -66,18 +66,18 @@ test.describe('[Feature] API Tests', () => {
       data: {
         /* test data */
       },
-    });
+    })
 
-    expect(response.status()).toBe(200);
+    expect(response.status()).toBe(200)
     expect(await response.json()).toMatchObject({
       /* expected */
-    });
-  });
+    })
+  })
 
   test('[P1] should handle [error scenario]', async ({ request }) => {
     // Test error handling
-  });
-});
+  })
+})
 ```
 
 **Requirements:**

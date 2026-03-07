@@ -89,16 +89,16 @@ playwright-cli -s=tea-discover close
 
 ```typescript
 // Agent generates API tests using what it discovered, with playwright-utils
-import { test } from '@seontechnologies/playwright-utils/api-request/fixtures';
+import { test } from '@seontechnologies/playwright-utils/api-request/fixtures'
 
 test('GET /api/users returns user list', async ({ apiRequest }) => {
   const { status, body } = await apiRequest<User[]>({
     method: 'GET',
     path: '/api/users',
-  });
-  expect(status).toBe(200);
-  expect(body.length).toBeGreaterThan(0);
-});
+  })
+  expect(status).toBe(200)
+  expect(body.length).toBeGreaterThan(0)
+})
 ```
 
 **For pure API testing** (no UI involved), CLI doesn't add much — there's no page to snapshot. The agent generates API tests directly from documentation, specs, or code analysis using `apiRequest` and `recurse` from playwright-utils.
