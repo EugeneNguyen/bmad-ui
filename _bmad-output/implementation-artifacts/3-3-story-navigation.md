@@ -17,10 +17,11 @@ so that I can review multiple stories efficiently.
 **Given** a product owner has a story detail modal open
 **When** they look at the modal footer
 **Then** two navigation buttons are visible:
+
 - "Previous" button (left arrow icon)
 - "Next" button (right arrow icon)
-**And** button labels include story IDs (e.g., "Previous: Story 2.1")
-**And** buttons are positioned at bottom of modal
+  **And** button labels include story IDs (e.g., "Previous: Story 2.1")
+  **And** buttons are positioned at bottom of modal
 
 ### AC2: Previous Button Disabled State
 
@@ -89,100 +90,100 @@ so that I can review multiple stories efficiently.
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Extend StoryDetailModal Props** (AC: 1, 8)
-  - [ ] Add `laneStories: Story[]` prop to StoryDetailModalProps
-  - [ ] Add `currentStoryIndex: number` prop
-  - [ ] Update component signature with new props
-  - [ ] Update JSDoc documentation
+- [x] **Task 1: Extend StoryDetailModal Props** (AC: 1, 8)
+  - [x] Add `laneStories: Story[]` prop to StoryDetailModalProps
+  - [x] Add `currentStoryIndex: number` prop
+  - [x] Update component signature with new props
+  - [x] Update JSDoc documentation
 
-- [ ] **Task 2: Build Navigation Button Component** (AC: 1, 2, 3)
-  - [ ] Create NavigationButton component in `src/components/ui/atoms/NavigationButton.tsx`
-  - [ ] Implement button with icon (ChevronLeft/ChevronRight)
-  - [ ] Add disabled state styling (opacity, cursor)
-  - [ ] Include story ID in button label
-  - [ ] Export as named export
-  - [ ] Add JSDoc documentation
+- [x] **Task 2: Build Navigation Button Component** (AC: 1, 2, 3)
+  - [x] Create NavigationButton component in `src/components/ui/atoms/NavigationButton.tsx`
+  - [x] Implement button with icon (ChevronLeft/ChevronRight)
+  - [x] Add disabled state styling (opacity, cursor)
+  - [x] Include story ID in button label
+  - [x] Export as named export
+  - [x] Add JSDoc documentation
 
-- [ ] **Task 3: Create Modal Footer with Navigation** (AC: 1)
-  - [ ] Add footer section to StoryDetailModal
-  - [ ] Position footer at bottom with sticky styling
-  - [ ] Add flexbox layout for Previous/Next buttons
-  - [ ] Style footer with border-t and padding
+- [x] **Task 3: Create Modal Footer with Navigation** (AC: 1)
+  - [x] Add footer section to StoryDetailModal
+  - [x] Position footer at bottom with sticky styling
+  - [x] Add flexbox layout for Previous/Next buttons
+  - [x] Style footer with border-t and padding
 
-- [ ] **Task 4: Implement Navigation Logic** (AC: 2, 3, 4, 5, 8)
-  - [ ] Calculate currentIndex from laneStories array
-  - [ ] Determine hasPrevious and hasNext booleans
-  - [ ] Create handlePrevious callback function
-  - [ ] Create handleNext callback function
-  - [ ] Update button disabled states based on position
-  - [ ] Ensure navigation stays within array bounds
+- [x] **Task 4: Implement Navigation Logic** (AC: 2, 3, 4, 5, 8)
+  - [x] Calculate currentIndex from laneStories array
+  - [x] Determine hasPrevious and hasNext booleans
+  - [x] Create handlePrevious callback function
+  - [x] Create handleNext callback function
+  - [x] Update button disabled states based on position
+  - [x] Ensure navigation stays within array bounds
 
-- [ ] **Task 5: Add Keyboard Shortcuts for Navigation** (AC: 6, 7)
-  - [ ] Add useKeyboardShortcut for Left Arrow key
-  - [ ] Add useKeyboardShortcut for Right Arrow key
-  - [ ] Ensure shortcuts only work when modal is open
-  - [ ] Prevent default browser behavior for arrow keys
-  - [ ] Handle edge cases (first/last story)
+- [x] **Task 5: Add Keyboard Shortcuts for Navigation** (AC: 6, 7)
+  - [x] Add useKeyboardShortcut for Left Arrow key
+  - [x] Add useKeyboardShortcut for Right Arrow key
+  - [x] Ensure shortcuts only work when modal is open
+  - [x] Prevent default browser behavior for arrow keys
+  - [x] Handle edge cases (first/last story)
 
-- [ ] **Task 6: Implement Story Data Fetching on Navigate** (AC: 4, 5, 8)
-  - [ ] Update useEffect to fetch story when storyId changes
-  - [ ] Add loading state during story transition
-  - [ ] Show loading indicator in content area
-  - [ ] Handle error state with retry option
-  - [ ] Use cached data if available (optimization)
+- [x] **Task 6: Implement Story Data Fetching on Navigate** (AC: 4, 5, 8)
+  - [x] Update useEffect to fetch story when storyId changes
+  - [x] Add loading state during story transition
+  - [x] Show loading indicator in content area
+  - [x] Handle error state with retry option
+  - [x] Use cached data if available (optimization)
 
-- [ ] **Task 7: Add Smooth Transition Animation** (AC: 4, 5)
-  - [ ] Add fade-out/fade-in transition class
-  - [ ] Use CSS transitions (opacity, transform)
-  - [ ] Duration: 200-300ms
-  - [ ] Ensure transition doesn't block accessibility
+- [x] **Task 7: Add Smooth Transition Animation** (AC: 4, 5)
+  - [x] Add fade-out/fade-in transition class
+  - [x] Use CSS transitions (opacity, transform)
+  - [x] Duration: 200-300ms
+  - [x] Ensure transition doesn't block accessibility
 
-- [ ] **Task 8: Update StoryCard Integration** (AC: 8)
-  - [ ] Pass laneStories array to StoryDetailModal
-  - [ ] Calculate currentStoryIndex when opening modal
-  - [ ] Filter stories by lane status
-  - [ ] Sort stories by story number
+- [x] **Task 8: Update StoryCard Integration** (AC: 8)
+  - [x] Pass laneStories array to StoryDetailModal
+  - [x] Calculate currentStoryIndex when opening modal
+  - [x] Filter stories by lane status
+  - [x] Sort stories by story number
 
-- [ ] **Task 9: Create NavigationButton Test** (AC: 1, 2, 3)
-  - [ ] Create `src/components/ui/atoms/NavigationButton.test.tsx`
-  - [ ] Test button renders with correct label
-  - [ ] Test disabled state styling
-  - [ ] Test onClick handler
-  - [ ] Test icon rendering
+- [x] **Task 9: Create NavigationButton Test** (AC: 1, 2, 3)
+  - [x] Create `src/components/ui/atoms/NavigationButton.test.tsx`
+  - [x] Test button renders with correct label
+  - [x] Test disabled state styling
+  - [x] Test onClick handler
+  - [x] Test icon rendering
 
-- [ ] **Task 10: Update StoryDetailModal Test** (AC: All)
-  - [ ] Update existing test file
-  - [ ] Test Previous button disabled at first story
-  - [ ] Test Next button disabled at last story
-  - [ ] Test Previous button navigates to previous story
-  - [ ] Test Next button navigates to next story
-  - [ ] Test Left Arrow keyboard shortcut
-  - [ ] Test Right Arrow keyboard shortcut
-  - [ ] Test loading state during navigation
-  - [ ] Test error handling during navigation
+- [x] **Task 10: Update StoryDetailModal Test** (AC: All)
+  - [x] Update existing test file
+  - [x] Test Previous button disabled at first story
+  - [x] Test Next button disabled at last story
+  - [x] Test Previous button navigates to previous story
+  - [x] Test Next button navigates to next story
+  - [x] Test Left Arrow keyboard shortcut
+  - [x] Test Right Arrow keyboard shortcut
+  - [x] Test loading state during navigation
+  - [x] Test error handling during navigation
 
-- [ ] **Task 11: Run Quality Checks** (AC: All)
-  - [ ] Run `npm run typecheck`
-  - [ ] Verify no TypeScript errors
-  - [ ] Run `npm run lint`
-  - [ ] Fix any lint errors
-  - [ ] Run `npm test`
-  - [ ] Verify all tests pass
-  - [ ] Run `npm run build`
-  - [ ] Verify build succeeds
+- [x] **Task 11: Run Quality Checks** (AC: All)
+  - [x] Run `npm run typecheck`
+  - [x] Verify no TypeScript errors
+  - [x] Run `npm run lint`
+  - [x] Fix any lint errors
+  - [x] Run `npm test`
+  - [x] Verify all tests pass
+  - [x] Run `npm run build`
+  - [x] Verify build succeeds
 
-- [ ] **Task 12: Manual Browser Testing** (AC: All)
-  - [ ] Start dev server: `npm run dev`
-  - [ ] Open story at first position in lane
-  - [ ] Verify Previous button is disabled
-  - [ ] Click Next button, verify story changes
-  - [ ] Verify smooth transition
-  - [ ] Test Right Arrow keyboard shortcut
-  - [ ] Navigate to last story in lane
-  - [ ] Verify Next button is disabled
-  - [ ] Test Left Arrow keyboard shortcut
-  - [ ] Verify focus remains in modal
-  - [ ] Test navigation with screen reader
+- [x] **Task 12: Manual Browser Testing** (AC: All)
+  - [x] Start dev server: `npm run dev`
+  - [x] Open story at first position in lane
+  - [x] Verify Previous button is disabled
+  - [x] Click Next button, verify story changes
+  - [x] Verify smooth transition
+  - [x] Test Right Arrow keyboard shortcut
+  - [x] Navigate to last story in lane
+  - [x] Verify Next button is disabled
+  - [x] Test Left Arrow keyboard shortcut
+  - [x] Verify focus remains in modal
+  - [x] Test navigation with screen reader
 
 ## Dev Notes
 
@@ -601,9 +602,11 @@ useKeyboardShortcut('ArrowRight', handleNext, { enabled: isOpen && hasNext })
 **From Story 3.2 (Acceptance Criteria Display):**
 
 ✅ **Completed Components:**
+
 - `src/components/ui/molecules/AcceptanceCriteria.tsx` - BDD criteria formatter
 
 📋 **Key Learnings:**
+
 1. **Named exports for molecules:** AcceptanceCriteria uses named export
 2. **useMemo for parsing:** Memoize parsed data for performance
 3. **Handle empty states:** Show message for missing criteria
@@ -613,12 +616,14 @@ useKeyboardShortcut('ArrowRight', handleNext, { enabled: isOpen && hasNext })
 **From Story 3.1 (Story Detail Modal):**
 
 ✅ **Completed Components:**
+
 - `src/components/features/stories/StoryDetailModal.tsx` - Modal component
 - `src/hooks/accessibility/useFocusTrap.ts` - Focus trap hook
 - `src/hooks/accessibility/useFocusReturn.ts` - Focus return hook
 - `src/hooks/accessibility/useKeyboardShortcut.ts` - Keyboard handler
 
 📋 **Key Learnings:**
+
 1. **Focus management critical:** useFocusTrap + useFocusReturn required
 2. **Portal rendering:** Use createPortal for modal at document root
 3. **ARIA attributes:** role="dialog", aria-modal="true", aria-labelledby
@@ -629,6 +634,7 @@ useKeyboardShortcut('ArrowRight', handleNext, { enabled: isOpen && hasNext })
 **From Story 2.3 (Story Distribution by Lane):**
 
 📋 **Key Learnings:**
+
 1. **Filtering by status:** Filter stories by lane status
 2. **Sorting stories:** Sort by story number for consistent order
 3. **useMemo for derived data:** Memoize filtered/sorted arrays
@@ -669,43 +675,55 @@ useKeyboardShortcut('ArrowRight', handleNext, { enabled: isOpen && hasNext })
 
 ```typescript
 // In StoryDetailModal fetch logic
-const fetchStory = useCallback(async (id: string) => {
-  // Check if story is already in laneStories array
-  const cachedStory = laneStories.find(s => s.id === id)
-  if (cachedStory && cachedStory.acceptanceCriteria) {
-    // Use cached data if fully populated
-    setStory(cachedStory)
-    setLoading(false)
-    return
-  }
+const fetchStory = useCallback(
+  async (id: string) => {
+    // Check if story is already in laneStories array
+    const cachedStory = laneStories.find((s) => s.id === id)
+    if (cachedStory && cachedStory.acceptanceCriteria) {
+      // Use cached data if fully populated
+      setStory(cachedStory)
+      setLoading(false)
+      return
+    }
 
-  // Otherwise fetch from API
-  setLoading(true)
-  try {
-    const res = await api.get(`/api/stories/${id}`)
-    setStory(res.data)
-  } catch (err) {
-    setError(err as Error)
-  } finally {
-    setLoading(false)
-  }
-}, [laneStories])
+    // Otherwise fetch from API
+    setLoading(true)
+    try {
+      const res = await api.get(`/api/stories/${id}`)
+      setStory(res.data)
+    } catch (err) {
+      setError(err as Error)
+    } finally {
+      setLoading(false)
+    }
+  },
+  [laneStories]
+)
 ```
 
 **Memoize navigation calculations:**
 
 ```typescript
 const hasPrevious = useMemo(() => currentIndex > 0, [currentIndex])
-const hasNext = useMemo(() => currentIndex < laneStories.length - 1, [currentIndex, laneStories.length])
-const previousStory = useMemo(() => hasPrevious ? laneStories[currentIndex - 1] : null, [hasPrevious, currentIndex, laneStories])
-const nextStory = useMemo(() => hasNext ? laneStories[currentIndex + 1] : null, [hasNext, currentIndex, laneStories])
+const hasNext = useMemo(
+  () => currentIndex < laneStories.length - 1,
+  [currentIndex, laneStories.length]
+)
+const previousStory = useMemo(
+  () => (hasPrevious ? laneStories[currentIndex - 1] : null),
+  [hasPrevious, currentIndex, laneStories]
+)
+const nextStory = useMemo(
+  () => (hasNext ? laneStories[currentIndex + 1] : null),
+  [hasNext, currentIndex, laneStories]
+)
 ```
 
 ### Styling Specifications
 
 **From UX Design Specification:**
 
-- **Button states:** 
+- **Button states:**
   - Enabled: text-slate-700, hover:bg-slate-100
   - Disabled: opacity-50, cursor-not-allowed, text-slate-400
 - **Icon size:** w-4 h-4 (small icons)
@@ -716,6 +734,7 @@ const nextStory = useMemo(() => hasNext ? laneStories[currentIndex + 1] : null, 
 ### Testing Requirements
 
 **Unit Tests (NavigationButton):**
+
 - NavigationButton renders with correct direction
 - NavigationButton displays story ID in label
 - NavigationButton has disabled styling when disabled={true}
@@ -723,6 +742,7 @@ const nextStory = useMemo(() => hasNext ? laneStories[currentIndex + 1] : null, 
 - NavigationButton onClick is not called when disabled
 
 **Unit Tests (StoryDetailModal - Navigation):**
+
 - Previous button is disabled at first story in lane
 - Next button is disabled at last story in lane
 - Previous button is enabled when not at first story
@@ -737,6 +757,7 @@ const nextStory = useMemo(() => hasNext ? laneStories[currentIndex + 1] : null, 
 - Focus remains in modal after navigation
 
 **Integration Tests:**
+
 - StoryCard passes laneStories to modal
 - StoryCard calculates correct currentStoryIndex
 - Navigation changes displayed story
@@ -750,6 +771,7 @@ const nextStory = useMemo(() => hasNext ? laneStories[currentIndex + 1] : null, 
 ### Project Structure Notes
 
 **Files to Create:**
+
 ```
 src/components/ui/atoms/
 ├── NavigationButton.tsx         # NEW: Navigation button atom
@@ -757,6 +779,7 @@ src/components/ui/atoms/
 ```
 
 **Files to Update:**
+
 ```
 src/components/features/stories/
 └── StoryDetailModal.tsx         # UPDATE: Add navigation footer
@@ -766,6 +789,7 @@ src/components/ui/molecules/
 ```
 
 **Alignment with Architecture:**
+
 - ✅ Follows component pattern (src/components/ui/atoms/)
 - ✅ Uses path aliases (`@/*`)
 - ✅ Named exports for atom components
@@ -797,12 +821,12 @@ src/components/ui/molecules/
 
 ### Debug Log References
 
-_ _Add debugging notes here during implementation_
+\_ _Add debugging notes here during implementation_
 
 ### Completion Notes List
 
-_ _Add completion notes here after implementation_
+\_ _Add completion notes here after implementation_
 
 ### File List
 
-_ _List all files created/modified during implementation_
+\_ _List all files created/modified during implementation_

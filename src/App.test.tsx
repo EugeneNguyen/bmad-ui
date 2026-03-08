@@ -30,10 +30,10 @@ describe('App', () => {
 
     await waitFor(
       () => {
-        expect(screen.getByText('Ready to Start')).toBeInTheDocument()
-        expect(screen.getByText('Being Built')).toBeInTheDocument()
-        expect(screen.getByText('Needs Your Attention')).toBeInTheDocument()
-        expect(screen.getByText('Complete')).toBeInTheDocument()
+        expect(screen.getByText('Ready')).toBeInTheDocument()
+        expect(screen.getByText('In Dev')).toBeInTheDocument()
+        expect(screen.getByText('Ready For Review')).toBeInTheDocument()
+        expect(screen.getByText('Done')).toBeInTheDocument()
       },
       { timeout: 5000 }
     )

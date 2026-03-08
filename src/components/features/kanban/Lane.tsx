@@ -6,9 +6,10 @@ export interface LaneProps {
   title: string
   stories: Story[]
   onStoryClick?: (story: Story) => void
+  storyCardRefs?: React.MutableRefObject<Map<string, HTMLButtonElement | null>>
 }
 
-export default function Lane({ status, title, stories, onStoryClick }: LaneProps) {
+function Lane({ status, title, stories, onStoryClick, storyCardRefs }: LaneProps) {
   const titleId = `lane-title-${status}`
   const descId = `lane-desc-${status}`
 
@@ -40,10 +41,27 @@ export default function Lane({ status, title, stories, onStoryClick }: LaneProps
       ) : (
         <div className="flex flex-col gap-3">
           {stories.map((story) => (
-            <StoryCard key={story.id} story={story} onClick={onStoryClick} />
+            <StoryCard
+              key={story.id}
+              ref={(node) => {
+                if (storyCardRefs?.current) {
+                  if (node) {
+                    storyCardRefs.current.set(story.id, node)
+                  } else {
+                    storyCardRefs.current.delete(story.id)
+                  }
+                }
+              }}
+              story={story}
+              onClick={onStoryClick}
+            />
           ))}
         </div>
       )}
     </div>
   )
 }
+
+Lane.displayName = 'Lane'
+
+export default Lane

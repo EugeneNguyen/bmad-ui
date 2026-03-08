@@ -10,6 +10,15 @@ export default {
         'status-review': '#8B5CF6',
         'status-done': '#10B981',
       },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateX(10px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.25s ease-out',
+      },
     },
   },
 } satisfies Config

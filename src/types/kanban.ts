@@ -17,19 +17,14 @@ export interface KanbanLane {
  * Maps status values to lane display properties
  */
 export const LANE_STATUSES: Record<StoryStatus, { title: string }> = {
-  ready: { title: 'Ready to Start' },
-  'in-dev': { title: 'Being Built' },
-  'ready-for-review': { title: 'Needs Your Attention' },
-  done: { title: 'Complete' },
+  ready: { title: 'Ready' },
+  'in-dev': { title: 'In Dev' },
+  'ready-for-review': { title: 'Ready For Review' },
+  done: { title: 'Done' },
 }
 
 /**
  * Display order of lanes from left to right
  * Follows workflow progression: ready → in-dev → review → done
  */
-export const LANE_ORDER: StoryStatus[] = [
-  'ready',
-  'in-dev',
-  'ready-for-review',
-  'done',
-]
+export const LANE_ORDER: StoryStatus[] = ['ready', 'in-dev', 'ready-for-review', 'done']

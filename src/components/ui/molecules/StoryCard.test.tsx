@@ -65,24 +65,24 @@ describe('StoryCard', () => {
   })
 
   describe('Status badge', () => {
-    it('displays "Ready to Start" for ready status', () => {
+    it('displays "Ready" for ready status', () => {
       render(<StoryCard story={{ ...mockStory, status: 'ready' }} />)
-      expect(screen.getByText('Ready to Start')).toBeInTheDocument()
+      expect(screen.getByText('Ready')).toBeInTheDocument()
     })
 
-    it('displays "Being Built" for in-dev status', () => {
+    it('displays "In Dev" for in-dev status', () => {
       render(<StoryCard story={{ ...mockStory, status: 'in-dev' }} />)
-      expect(screen.getByText('Being Built')).toBeInTheDocument()
+      expect(screen.getByText('In Dev')).toBeInTheDocument()
     })
 
-    it('displays "Needs Your Attention" for ready-for-review status', () => {
+    it('displays "Ready For Review" for ready-for-review status', () => {
       render(<StoryCard story={{ ...mockStory, status: 'ready-for-review' }} />)
-      expect(screen.getByText('Needs Your Attention')).toBeInTheDocument()
+      expect(screen.getByText('Ready For Review')).toBeInTheDocument()
     })
 
-    it('displays "Complete" for done status', () => {
+    it('displays "Done" for done status', () => {
       render(<StoryCard story={{ ...mockStory, status: 'done' }} />)
-      expect(screen.getByText('Complete')).toBeInTheDocument()
+      expect(screen.getByText('Done')).toBeInTheDocument()
     })
 
     it('uses slate variant for ready status', () => {
@@ -148,13 +148,14 @@ describe('StoryCard', () => {
     it('has aria-label with story title and status', () => {
       render(<StoryCard story={mockStory} />)
       expect(screen.getByLabelText(/Story Card Display/)).toBeInTheDocument()
-      expect(screen.getByLabelText(/Ready to Start/)).toBeInTheDocument()
+      expect(screen.getByLabelText(/Ready/)).toBeInTheDocument()
     })
 
-    it('is focusable with tabIndex={0}', () => {
+    it('is focusable as a button element', () => {
       const { container } = render(<StoryCard story={mockStory} />)
-      const card = container.querySelector('[tabindex="0"]')
-      expect(card).toBeInTheDocument()
+      const button = container.querySelector('button[type="button"]')
+      expect(button).toBeInTheDocument()
+      expect(button).not.toHaveAttribute('tabindex')
     })
 
     it('has visible focus ring class', () => {

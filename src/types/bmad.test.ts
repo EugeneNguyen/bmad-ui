@@ -65,10 +65,10 @@ describe('BMAD Types', () => {
 
   describe('STATUS_LABELS constant', () => {
     it('should map all status values to PO-friendly labels', () => {
-      expect(STATUS_LABELS.ready).toBe('Ready to Start')
-      expect(STATUS_LABELS['in-dev']).toBe('Being Built')
-      expect(STATUS_LABELS['ready-for-review']).toBe('Needs Your Attention')
-      expect(STATUS_LABELS.done).toBe('Complete')
+      expect(STATUS_LABELS.ready).toBe('Ready')
+      expect(STATUS_LABELS['in-dev']).toBe('In Dev')
+      expect(STATUS_LABELS['ready-for-review']).toBe('Ready For Review')
+      expect(STATUS_LABELS.done).toBe('Done')
     })
 
     it('should have exactly 4 status labels', () => {

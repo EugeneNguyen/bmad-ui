@@ -56,8 +56,8 @@ export interface SprintStatus {
  * Use this for all UI displays instead of raw status values
  */
 export const STATUS_LABELS: Record<StoryStatus, string> = {
-  ready: 'Ready to Start',
-  'in-dev': 'Being Built',
-  'ready-for-review': 'Needs Your Attention',
-  done: 'Complete',
+  ready: 'Ready',
+  'in-dev': 'In Dev',
+  'ready-for-review': 'Ready For Review',
+  done: 'Done',
 }

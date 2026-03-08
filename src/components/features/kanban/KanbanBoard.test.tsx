@@ -58,10 +58,10 @@ describe('KanbanBoard', () => {
   it('renders all four lanes', () => {
     render(<KanbanBoard stories={mockStories} epics={mockEpics} sprintStatus={mockSprintStatus} />)
 
-    expect(screen.getByRole('heading', { name: 'Ready to Start' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Being Built' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Needs Your Attention' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Complete' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Ready' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'In Dev' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Ready For Review' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Done' })).toBeInTheDocument()
   })
 
   it('groups stories by status', () => {

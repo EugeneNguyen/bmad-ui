@@ -27,7 +27,9 @@ function validateStoryData(story: Partial<Story>, filePath: string): asserts sto
   }
 
   if (!story.status || !['ready', 'in-dev', 'ready-for-review', 'done'].includes(story.status)) {
-    errors.push(`Story status must be one of: ready, in-dev, ready-for-review, done (got: ${story.status})`)
+    errors.push(
+      `Story status must be one of: ready, in-dev, ready-for-review, done (got: ${story.status})`
+    )
   }
 
   if (!story.epicId || typeof story.epicId !== 'string') {
@@ -35,16 +37,12 @@ function validateStoryData(story: Partial<Story>, filePath: string): asserts sto
   }
 
   if (errors.length > 0) {
-    throw new BmadValidationError(
-      `Invalid story data in ${filePath}`,
-      filePath,
-      errors
-    )
+    throw new BmadValidationError(`Invalid story data in ${filePath}`, filePath, errors)
   }
 }
 
 function verifyEpicExists(epicId: string, epics: Epic[], filePath: string): void {
-  const epicExists = epics.some(e => e.id === epicId)
+  const epicExists = epics.some((e) => e.id === epicId)
   if (!epicExists) {
     console.warn(
       `[bmad-reader] Warning: Story in ${filePath} references non-existent epic: ${epicId}`
@@ -144,7 +142,7 @@ function readStories(implementationPath: string, epics: Epic[]): Story[] {
   for (const file of files) {
     if (file.endsWith('.md') && file.match(/^\d+-\d+-/)) {
       const filePath = path.join(implementationPath, file)
-      
+
       try {
         const content = fs.readFileSync(filePath, 'utf-8')
         const parsed = parseMarkdown(content)
@@ -154,13 +152,11 @@ function readStories(implementationPath: string, epics: Epic[]): Story[] {
         const id = idMatch ? idMatch[1] : file.replace('.md', '')
 
         const headerMatch = parsed.body.match(/^#\s+(?:Story\s+\d+\.\d+:\s*)?(.+?)$/m)
-        const title = headerMatch
-          ? headerMatch[1].trim()
-          : (frontmatter.title as string) || id
+        const title = headerMatch ? headerMatch[1].trim() : (frontmatter.title as string) || id
 
         const epicMatch = id.match(/^(\d+)-/)
-        const epicId = (frontmatter.epicId as string) || 
-                       (epicMatch ? `epic-${epicMatch[1]}` : 'unknown')
+        const epicId =
+          (frontmatter.epicId as string) || (epicMatch ? `epic-${epicMatch[1]}` : 'unknown')
 
         const acMatches = parsed.body.matchAll(
           /#{1,3}\s+(?:AC|Acceptance\s+Criteria)\s*[-:]?\s*(\d+[:\s]+.+?)(?:\n|$)/gi
@@ -170,11 +166,16 @@ function readStories(implementationPath: string, epics: Epic[]): Story[] {
           acceptanceCriteria.push(acMatch[1].trim())
         }
 
+        const frontmatterStatus = (frontmatter.Status || frontmatter.status) as string | undefined
+        const bodyStatusMatch = parsed.body.match(/^Status:\s*(.+?)$/m)
+        const bodyStatus = bodyStatusMatch ? bodyStatusMatch[1].trim() : undefined
+        const rawStatus = frontmatterStatus || bodyStatus || 'backlog'
+
         const storyData: Partial<Story> = {
           id,
           title: title.trim(),
           description: (frontmatter.description as string) || '',
-          status: mapStatus(frontmatter.Status as string || 'backlog'),
+          status: mapStatus(rawStatus),
           epicId,
           acceptanceCriteria,
         }
@@ -187,7 +188,7 @@ function readStories(implementationPath: string, epics: Epic[]): Story[] {
         if (error instanceof BmadValidationError) {
           console.error(`[bmad-reader] Validation error in ${filePath}:`, error.message)
           if (error.details) {
-            error.details.forEach(detail => console.error(`  - ${detail}`))
+            error.details.forEach((detail) => console.error(`  - ${detail}`))
           }
         } else {
           throw error
@@ -221,10 +222,7 @@ function readSprintStatus(implementationPath: string): SprintStatus {
       const parsed = parseYaml(content) as Record<string, unknown>
 
       if (!parsed || typeof parsed !== 'object') {
-        throw new BmadValidationError(
-          'Invalid sprint-status.yaml: must be an object',
-          sprintFile
-        )
+        throw new BmadValidationError('Invalid sprint-status.yaml: must be an object', sprintFile)
       }
 
       return {
@@ -232,12 +230,12 @@ function readSprintStatus(implementationPath: string): SprintStatus {
         name: typeof parsed.name === 'string' ? parsed.name : 'Current Sprint',
         project: typeof parsed.project === 'string' ? parsed.project : undefined,
         stories: [],
-        lastUpdated: typeof parsed.generated === 'string' 
-          ? parsed.generated 
-          : new Date().toISOString(),
-        developmentStatus: typeof parsed.development_status === 'object' 
-          ? parsed.development_status as Record<string, string>
-          : {},
+        lastUpdated:
+          typeof parsed.generated === 'string' ? parsed.generated : new Date().toISOString(),
+        developmentStatus:
+          typeof parsed.development_status === 'object'
+            ? (parsed.development_status as Record<string, string>)
+            : {},
       }
     } catch (error) {
       if (error instanceof BmadValidationError) {

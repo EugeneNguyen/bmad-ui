@@ -50,15 +50,15 @@ development_status:
   # Epic 2: Sprint Visualization
   epic-2: in-progress
   2-1-kanban-board-layout: done
-  2-2-story-card-display: in-progress
-  2-3-story-distribution-by-lane: ready-for-dev
+  2-2-story-card-display: done
+  2-3-story-distribution-by-lane: done
   epic-2-retrospective: optional
 
   # Epic 3: Story Discovery
   epic-3: in-progress
-  3-1-story-detail-modal: ready-for-dev
-  3-2-acceptance-criteria-display: ready-for-dev
-  3-3-story-navigation: ready-for-dev
+  3-1-story-detail-modal: done
+  3-2-acceptance-criteria-display: done
+  3-3-story-navigation: in-progress
   epic-3-retrospective: optional
 
   # Epic 4: Navigation & Change Detection

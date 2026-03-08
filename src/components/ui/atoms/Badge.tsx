@@ -13,12 +13,9 @@ const variantStyles: Record<BadgeVariant, string> = {
   green: 'bg-green-100 text-green-700',
 }
 
+const baseClasses = 'px-2.5 py-0.5 rounded-full text-xs font-medium'
+
 export default function Badge({ children, variant, className = '' }: BadgeProps) {
-  return (
-    <span
-      className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${variantStyles[variant]} ${className}`}
-    >
-      {children}
-    </span>
-  )
+  const classes = [baseClasses, variantStyles[variant], className].filter(Boolean).join(' ')
+  return <span className={classes}>{children}</span>
 }

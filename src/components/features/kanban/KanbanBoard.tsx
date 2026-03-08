@@ -1,38 +1,25 @@
-import { useMemo } from 'react'
+import { forwardRef } from 'react'
 import type { Story, Epic, SprintStatus } from '@/types/bmad'
 import { STATUS_LABELS } from '@/types/bmad'
 import { LANE_ORDER } from '@/types/kanban'
 import Lane from './Lane'
+import { useStoriesByStatus } from '@/hooks/useStoriesByStatus'
 
 export interface KanbanBoardProps {
   stories: Story[]
   epics: Epic[]
   sprintStatus: SprintStatus | null
   onStoryClick?: (story: Story) => void
+  storyCardRefs?: React.MutableRefObject<Map<string, HTMLButtonElement | null>>
 }
 
-export default function KanbanBoard({
-  stories,
-  epics: _epics,
-  sprintStatus: _sprintStatus,
-  onStoryClick,
-}: KanbanBoardProps) {
-  const lanes = useMemo(() => {
-    const grouped: Record<string, Story[]> = {
-      ready: [],
-      'in-dev': [],
-      'ready-for-review': [],
-      done: [],
-    }
-
-    stories.forEach((story) => {
-      if (grouped[story.status]) {
-        grouped[story.status]!.push(story)
-      }
-    })
-
-    return grouped
-  }, [stories])
+const KanbanBoard = forwardRef<HTMLDivElement, KanbanBoardProps>(function KanbanBoard(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  { stories, epics: _epics, sprintStatus: _sprintStatus, onStoryClick, storyCardRefs },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _ref
+) {
+  const lanes = useStoriesByStatus(stories)
 
   return (
     <div
@@ -54,9 +41,14 @@ export default function KanbanBoard({
             title={STATUS_LABELS[status]}
             stories={laneStories}
             onStoryClick={onStoryClick}
+            storyCardRefs={storyCardRefs}
           />
         )
       })}
     </div>
   )
-}
+})
+
+KanbanBoard.displayName = 'KanbanBoard'
+
+export default KanbanBoard
