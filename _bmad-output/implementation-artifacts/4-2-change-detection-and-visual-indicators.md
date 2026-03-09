@@ -166,16 +166,16 @@ so that I know the displayed information might be outdated and needs refreshing.
   - [ ] Run `npm run build`
   - [ ] Verify build succeeds
 
-- [ ] **Task 13: Manual Browser Testing** (AC: All)
-  - [ ] Start dev server: `npm run dev`
-  - [ ] Open board, note initial state (no indicator)
-  - [ ] Modify a story file in `_bmad-output`
-  - [ ] Wait up to 30s, verify indicator appears
-  - [ ] Hover over indicator, verify tooltip
-  - [ ] Click refresh, verify indicator clears
-  - [ ] Test story badges appear for changed stories
-  - [ ] Test with screen reader for accessibility
-  - [ ] Test keyboard navigation to indicator
+- [x] **Task 13: Manual Browser Testing** (AC: All)
+  - [x] Start dev server: `npm run dev`
+  - [x] Open board, note initial state (no indicator)
+  - [x] Modify a story file in `_bmad-output`
+  - [x] Wait up to 30s, verify indicator appears
+  - [x] Hover over indicator, verify tooltip
+  - [x] Click refresh, verify indicator clears
+  - [x] Test story badges appear for changed stories
+  - [x] Test with screen reader for accessibility
+  - [x] Test keyboard navigation to indicator
 
 ## Dev Notes
 

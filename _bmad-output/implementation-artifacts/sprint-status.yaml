@@ -65,5 +65,5 @@ development_status:
   epic-4: in-progress
   4-1-epic-filter: ready-for-dev
   4-2-change-detection-and-visual-indicators: ready-for-dev
-  4-3-manual-refresh-and-change-summary: ready-for-dev
+  4-3-manual-refresh-and-change-summary: done
   epic-4-retrospective: optional

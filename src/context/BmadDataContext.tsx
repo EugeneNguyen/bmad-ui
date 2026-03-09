@@ -3,6 +3,26 @@ import type { Story, Epic, SprintStatus } from '@/types/bmad'
 import { api } from '@/lib/api'
 import type { BmadError } from '@/lib/errors'
 
+export interface ChangeCounts {
+  added: number
+  updated: number
+  removed: number
+}
+
+export interface ChangeIds {
+  addedIds: string[]
+  updatedIds: string[]
+  removedIds: string[]
+}
+
+export interface RefreshResult {
+  stories: Story[]
+  epics: Epic[]
+  sprintStatus: SprintStatus | null
+  changes: ChangeCounts
+  changeIds: ChangeIds
+}
+
 interface BmadDataContextValue {
   stories: Story[]
   epics: Epic[]
@@ -10,6 +30,7 @@ interface BmadDataContextValue {
   loading: boolean
   error: BmadError | null
   refetch: () => void
+  refresh: () => Promise<RefreshResult | null>
 }
 
 const BmadDataContext = createContext<BmadDataContextValue | null>(null)
@@ -45,6 +66,34 @@ export function BmadDataProvider({ children }: { children: ReactNode }) {
     fetchData()
   }, [fetchData])
 
+  const refresh = useCallback(async (): Promise<RefreshResult | null> => {
+    try {
+      const res = await api.post<{
+        stories: Story[]
+        epics: Epic[]
+        sprint: SprintStatus
+        changes: ChangeCounts
+        changeIds: ChangeIds
+      }>('/refresh')
+
+      const data = res.data
+      setStories(data.stories)
+      setEpics(data.epics)
+      setSprintStatus(data.sprint)
+
+      return {
+        stories: data.stories,
+        epics: data.epics,
+        sprintStatus: data.sprint,
+        changes: data.changes,
+        changeIds: data.changeIds,
+      }
+    } catch (err) {
+      setError(err as BmadError)
+      return null
+    }
+  }, [])
+
   return (
     <BmadDataContext.Provider
       value={{
@@ -54,6 +103,7 @@ export function BmadDataProvider({ children }: { children: ReactNode }) {
         loading,
         error,
         refetch: fetchData,
+        refresh,
       }}
     >
       {children}
