@@ -1,6 +1,6 @@
 # Story 4.1: Epic Filter
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -25,10 +25,11 @@ so that I can focus on stories for a specific epic without distraction from othe
 **Given** a product owner clicks the Epic Filter dropdown
 **When** the dropdown opens
 **Then** it displays:
+
 - "All Epics" option (default)
 - List of all epic names (e.g., "Epic 1: Project Foundation", "Epic 2: Sprint Visualization")
-**And** epics are listed in order
-**And** the dropdown is searchable if > 5 epics
+  **And** epics are listed in order
+  **And** the dropdown is searchable if > 5 epics
 
 ### AC3: Filter Application
 
@@ -273,7 +274,7 @@ import EpicFilter from '@/components/features/filters/EpicFilter'
 export default function KanbanBoard() {
   const { epics } = useEpics()
   const { stories } = useStories()
-  
+
   // Initialize from URL parameter
   const [selectedEpicId, setSelectedEpicId] = useState<string | null>(() => {
     const params = new URLSearchParams(window.location.search)
@@ -339,9 +340,9 @@ const filteredStories = useMemo(() => {
 }, [stories, selectedEpicId])
 
 // Context value
-<BmadDataContext.Provider value={{ 
-  stories, 
-  epics, 
+<BmadDataContext.Provider value={{
+  stories,
+  epics,
   filteredStories,
   selectedEpicId,
   setSelectedEpicId,
@@ -356,6 +357,7 @@ const filteredStories = useMemo(() => {
 **From Story 3.3 (Story Navigation):**
 
 📋 **Key Learnings:**
+
 1. **Named exports for atoms:** UI atoms use named exports
 2. **useMemo for derived data:** Memoize filtered/sorted arrays for performance
 3. **URL state sync:** Use replaceState to avoid cluttering history
@@ -364,6 +366,7 @@ const filteredStories = useMemo(() => {
 **From Story 2.3 (Story Distribution by Lane):**
 
 📋 **Key Learnings:**
+
 1. **Filtering by status:** Filter stories by lane status using useMemo
 2. **Sorting stories:** Sort by story number for consistent order
 3. **Story counts:** Update counts when filtered data changes
@@ -371,6 +374,7 @@ const filteredStories = useMemo(() => {
 **From Story 1.3 (Data Types and State Management):**
 
 📋 **Key Learnings:**
+
 1. **BmadDataContext structure:** Context provides stories, epics, sprintStatus
 2. **Custom hooks pattern:** useStories, useEpics for data access
 3. **TypeScript interfaces:** Story has epicId for epic association
@@ -408,6 +412,7 @@ const filteredStories = useMemo(() => {
 ### Project Structure Notes
 
 **Files to Create:**
+
 ```
 src/components/features/filters/
 ├── EpicFilter.tsx         # NEW: Epic filter dropdown
@@ -415,6 +420,7 @@ src/components/features/filters/
 ```
 
 **Files to Update:**
+
 ```
 src/components/features/board/
 └── KanbanBoard.tsx        # UPDATE: Add EpicFilter, filter logic, URL sync
@@ -424,6 +430,7 @@ src/components/ui/molecules/
 ```
 
 **Alignment with Architecture:**
+
 - ✅ Follows component pattern (src/components/features/filters/)
 - ✅ Uses path aliases (`@/*`)
 - ✅ Default export for feature component
@@ -448,7 +455,7 @@ const sortedEpics = useMemo(() => {
 // Filter stories once when filter or stories change
 const filteredStories = useMemo(() => {
   if (!selectedEpicId) return stories
-  return stories.filter(story => story.epicId === selectedEpicId)
+  return stories.filter((story) => story.epicId === selectedEpicId)
 }, [stories, selectedEpicId])
 ```
 
@@ -481,6 +488,7 @@ const filteredStories = useMemo(() => {
 ### Testing Requirements
 
 **Unit Tests (EpicFilter):**
+
 - EpicFilter renders with "All Epics" selected by default
 - EpicFilter displays all epic options in order
 - EpicFilter calls onEpicChange when selection changes
@@ -489,6 +497,7 @@ const filteredStories = useMemo(() => {
 - EpicFilter formats epic labels correctly ("Epic 1: Title")
 
 **Integration Tests:**
+
 - Selecting epic filters stories in KanbanBoard
 - Story counts update when filter changes
 - URL parameter updates on filter change
@@ -502,6 +511,7 @@ const filteredStories = useMemo(() => {
 ### Styling Specifications
 
 **From Architecture - Tailwind Classes:**
+
 - Select element: `px-4 py-2 text-sm border border-slate-300 rounded-lg bg-white`
 - Focus state: `focus:ring-2 focus:ring-blue-500 focus:border-blue-500`
 - Container: `relative` for positioning

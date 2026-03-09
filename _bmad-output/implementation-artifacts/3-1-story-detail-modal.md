@@ -1,6 +1,6 @@
 # Story 3.1: Story Detail Modal
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 

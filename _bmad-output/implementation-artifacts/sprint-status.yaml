@@ -58,12 +58,12 @@ development_status:
   epic-3: in-progress
   3-1-story-detail-modal: done
   3-2-acceptance-criteria-display: done
-  3-3-story-navigation: in-progress
+  3-3-story-navigation: done
   epic-3-retrospective: optional
 
   # Epic 4: Navigation & Change Detection
   epic-4: in-progress
-  4-1-epic-filter: ready-for-dev
-  4-2-change-detection-and-visual-indicators: ready-for-dev
+  4-1-epic-filter: done
+  4-2-change-detection-and-visual-indicators: done
   4-3-manual-refresh-and-change-summary: done
   epic-4-retrospective: optional
