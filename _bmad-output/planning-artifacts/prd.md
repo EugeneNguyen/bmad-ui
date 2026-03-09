@@ -15,6 +15,9 @@ stepsCompleted:
     'step-09-functional',
     'step-10-nonfunctional',
     'step-11-polish',
+    'step-e-01-discovery',
+    'step-e-02-review',
+    'step-e-03-edit',
   ]
 inputDocuments:
   - product-brief-bmad-ui-2026-03-06.md
@@ -28,6 +31,12 @@ classification:
   domain: Developer Tools / Productivity (BMAD ecosystem)
   complexity: Medium
   projectContext: Greenfield
+lastEdited: '2026-03-09'
+editHistory:
+  - date: '2026-03-09'
+    changes: 'Added OpenCode workflow integration: Journey 5 (Dave Control Panel), FR27-FR33 (OpenCode Integration), NFR25-28 (OpenCode Integration), Phase 2 Developer Acceleration features, Executive Summary point 5, Implementation Considerations for OpenCode serve API'
+  - date: '2026-03-09'
+    changes: 'Applied validation improvements: Added OpenCode workflow adoption KPI to Growth Phase Success Criteria; added Change Detection implementation note (FR5/FR12 localStorage strategy); clarified FR20 velocity and progress indicator definitions'
 ---
 
 # Product Requirements Document - bmad-ui
@@ -59,6 +68,9 @@ Designed specifically for non-technical stakeholders with PO-friendly language m
 **4. Zero-Friction Distribution**
 `npx bmad-ui` distribution leverages existing GitHub workflows — developers pull the repo and run one command. No cloud hosting, no infrastructure, no account creation. The viral loop: Developer discovers → uses as personal dashboard → shares with PO → PO engages → tells other developers.
 
+**5. Developer Acceleration Layer**
+Phase 2 adds OpenCode integration — developers trigger AI workflows (`create-story`, `dev-story`, `code-review`) directly from the board via the OpenCode serve API. The visual interface becomes mission control for AI-driven development, not just a status viewer. Developers stay in the board; AI does the execution.
+
 ## Project Classification
 
 | Attribute           | Value                                           |
@@ -80,11 +92,12 @@ Designed specifically for non-technical stakeholders with PO-friendly language m
 
 ### Growth Phase (Months 2-6)
 
-| Metric              | Target                                        | Measurement                            |
-| ------------------- | --------------------------------------------- | -------------------------------------- |
-| GitHub stars growth | 5,000+/month                                  | GitHub repository metrics              |
-| Active usage        | 100+ projects using bmad-ui                   | Community reports, GitHub discussions  |
-| Team adoption       | 10+ teams report bmad-ui in standard workflow | Community feedback, GitHub discussions |
+| Metric                     | Target                                                | Measurement                            |
+| -------------------------- | ----------------------------------------------------- | -------------------------------------- |
+| GitHub stars growth        | 5,000+/month                                          | GitHub repository metrics              |
+| Active usage               | 100+ projects using bmad-ui                           | Community reports, GitHub discussions  |
+| Team adoption              | 10+ teams report bmad-ui in standard workflow         | Community feedback, GitHub discussions |
+| OpenCode workflow adoption | 50+ developers trigger AI workflows monthly (Phase 2) | Community reports, GitHub discussions  |
 
 ### Market Position (Months 6-12)
 
@@ -158,38 +171,59 @@ Designed specifically for non-technical stakeholders with PO-friendly language m
 
 ### Out of Scope for MVP
 
-| Feature                         | Why Deferred                                                | Future Phase               |
-| ------------------------------- | ----------------------------------------------------------- | -------------------------- |
-| Cloud sharing / shareable links | Adds backend complexity; GitHub workflow is simpler for MVP | Phase 3-4 (if needed)      |
-| Real-time updates / WebSockets  | Manual refresh via git pull is sufficient for MVP           | Phase 3-4 (if needed)      |
-| Authentication                  | Trust GitHub repo access control                            | Phase 4+ (if needed)       |
-| Story Creation/Editing          | Sarah views only — creation happens in BMAD workflow        | Phase 2-3 (PO empowerment) |
-| Test Evidence Viewing           | Requires BMAD test integration                              | Phase 3-4 (PO empowerment) |
-| Self-Testing Features           | Requires staging environment integration                    | Phase 4+ (PO empowerment)  |
-| Release Decision Triggers       | Requires workflow integration                               | Phase 4+ (PO empowerment)  |
+| Feature                         | Why Deferred                                                | Future Phase                     |
+| ------------------------------- | ----------------------------------------------------------- | -------------------------------- |
+| Cloud sharing / shareable links | Adds backend complexity; GitHub workflow is simpler for MVP | Phase 3-4 (if needed)            |
+| Real-time updates / WebSockets  | Manual refresh via git pull is sufficient for MVP           | Phase 3-4 (if needed)            |
+| Authentication                  | Trust GitHub repo access control                            | Phase 4+ (if needed)             |
+| Manual Story Creation/Editing   | Sarah views only — manual creation is a Phase 2 PO feature  | Phase 2 (PO empowerment)         |
+| OpenCode Workflow Triggers      | Requires OpenCode server integration                        | Phase 2 (Developer acceleration) |
+| Test Evidence Viewing           | Requires BMAD test integration                              | Phase 3-4 (PO empowerment)       |
+| Self-Testing Features           | Requires staging environment integration                    | Phase 4+ (PO empowerment)        |
+| Release Decision Triggers       | Requires workflow integration                               | Phase 4+ (PO empowerment)        |
 
 ### Growth Features (Post-MVP)
 
-**Phase 2: PO Empowerment (Months 2-3)**
+**Phase 2: PO Empowerment & Developer Acceleration (Months 2-3)**
 
-- Story creation and editing directly in the UI
-- Modify acceptance criteria through visual editor
-- Re-prioritize stories via drag-and-drop
+**PO Empowerment:**
+
+| Feature           | Description                         | User Value         |
+| ----------------- | ----------------------------------- | ------------------ |
+| Story Creation    | Create stories directly in UI       | PO independence    |
+| Story Editing     | Modify acceptance criteria visually | Faster iteration   |
+| Drag-Drop Reorder | Re-prioritize stories via UI        | Sprint flexibility |
+
+**Developer Acceleration (OpenCode Integration):**
+
+| Feature                 | Description                                                                          | User Value                                    |
+| ----------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------- |
+| OpenCode Connection     | Connect to running `opencode serve` instance; show connection status in board header | Developer knows OpenCode is ready             |
+| AI Story Creation       | Trigger `create-story` workflow from epic view; new story appears on board           | Stories created without leaving the board     |
+| AI Story Implementation | Trigger `dev-story` workflow from story card in "Ready" status                       | Implementation starts in one click            |
+| AI Code Review          | Trigger `code-review` workflow from story card in "In Review" status                 | Code reviewed without terminal context-switch |
+| Workflow Status Monitor | Real-time status badge (queued/running/complete/failed); abort running workflow      | Developer stays in control                    |
+
+**Target:** 5,000 stars/month, 100 projects using bmad-ui
 
 **Phase 3: Test & Release Integration (Months 4-6)**
 
-- View test evidence (screenshots, logs, pass/fail) attached to stories
-- Self-test features through integrated staging preview
-- Trigger release decisions with full context
+| Feature               | Description                            | User Value          |
+| --------------------- | -------------------------------------- | ------------------- |
+| Test Evidence Viewing | See screenshots, logs, pass/fail       | Trust in completion |
+| Self-Testing          | Test features through staging preview  | PO validation       |
+| Release Triggers      | Trigger release decisions with context | Release confidence  |
 
-### Vision (Future)
+**Target:** 50% BMAD community penetration
 
 **Phase 4: AI-Assisted PO Platform (Months 6-12)**
 
-- AI-assisted story writing and refinement
-- Independent PO workflow with AI support
-- De facto standard for BMAD visual interface
-- 100k GitHub stars — ecosystem dominance achieved
+| Feature                 | Description                | User Value          |
+| ----------------------- | -------------------------- | ------------------- |
+| AI Story Writing        | AI-assisted story creation | PO productivity     |
+| Independent PO Workflow | Full PO autonomy           | Ecosystem dominance |
+
+**Target:** 100K GitHub stars — ecosystem dominance achieved
 
 ## User Journeys
 
@@ -197,10 +231,10 @@ Designed specifically for non-technical stakeholders with PO-friendly language m
 
 **The Persona:** Dave is a senior developer on Sarah's team. He lives in the terminal and uses BMAD daily. He's tired of spending 2-3 hours every week translating sprint status into reports, screenshots, and Slack messages for Sarah.
 
-**Opening Scene:**  
+**Opening Scene:**
 It's Monday morning. Dave opens his laptop, ready to dive into the payment integration story he's been working on. But first, his ritual: open Jira, see stale data, sigh. Three stories marked "in progress" that were actually finished last week. He knows Sarah will ask about them in standup.
 
-**Rising Action:**  
+**Rising Action:**
 Dave hears about bmad-ui in the BMAD Discord. Another developer mentioned: "Finally, I can see my sprint without digging through YAML files." Intrigued, Dave opens his terminal:
 
 ```bash
@@ -212,12 +246,12 @@ A local server spins up. He opens `localhost:3000` and freezes.
 
 There it is. His entire sprint, beautifully visualized. Stories in lanes. Epic grouping showing exactly where the payment feature sits. He clicks a story — acceptance criteria, status, everything he needs.
 
-**Climax:**  
+**Climax:**
 Dave keeps the tab open all day. During standup, he references the board directly instead of his notes. After standup, Sarah pings him on Slack: _"Hey, what's the status on the payment story?"_
 
 Dave doesn't type a summary. He types: _"Pull the repo and run `npx bmad-ui`. It's all there."_
 
-**Resolution:**  
+**Resolution:**
 A week later, Dave realizes something has changed. Sarah hasn't pinged him once for status. He checks his calendar — 2 hours of "status translation" meetings have disappeared. He tells another developer in Discord: _"You need to try bmad-ui. Sarah stopped interrupting me."_
 
 **Journey Requirements:** Zero-configuration setup (`npx bmad-ui`), instant visualization, story details on click, personal dashboard utility.
@@ -228,12 +262,12 @@ A week later, Dave realizes something has changed. Sarah hasn't pinged him once 
 
 **The Persona:** Sarah Chen is a product owner at a startup with 3 years PO experience. She's non-technical but domain-expert. Her team uses BMAD, but she's excluded from the workflow. She currently uses Jira but _doesn't trust the data_ — developers forget to update it.
 
-**Opening Scene:**  
+**Opening Scene:**
 Sarah's morning routine is a ritual of frustration. She opens Jira to prepare for sprint planning. The board shows three stories "in progress" that she suspects are done. She doesn't trust what she sees.
 
 Her phone buzzes. An investor asks: _"How's the payment feature coming along?"_ She doesn't know. She opens Slack to ping Dave, hesitates — she pinged him twice yesterday. She feels anxious, disconnected from her own product.
 
-**Rising Action:**  
+**Rising Action:**
 At standup, Dave mentions: _"Hey Sarah, you can see the sprint directly now. Just pull the repo and run `npx bmad-ui`."_
 
 Sarah is skeptical. Another tool? But after standup, she opens her terminal with trepidation. She's not comfortable with command lines, but Dave made it sound simple:
@@ -248,7 +282,7 @@ A message appears: _"bmad-ui running at http://localhost:3000"_
 
 She opens her browser.
 
-**Climax:**  
+**Climax:**
 The board loads. Sarah stares.
 
 There's her sprint. Not stale Jira data — the _real_ sprint. Stories grouped by epic. A "Being Built" lane showing the payment story. She clicks it and sees the acceptance criteria she wrote last week.
@@ -257,7 +291,7 @@ Then she notices something: A story she didn't know about has moved to "Being Bu
 
 Her heart races a little. This is real. This is happening _right now_. And she didn't have to ask anyone.
 
-**Resolution:**  
+**Resolution:**
 Three weeks later, Sarah's relationship with her product has transformed. She opens bmad-ui every morning with her coffee. She comes to standups prepared: _"I see the refund story moved to 'Needs Your Attention' — what's the blocker?"_
 
 Her investor asks about progress. She doesn't ping Dave. She opens bmad-ui, screenshots the board, and sends it with confidence.
@@ -272,24 +306,24 @@ She thinks: _"I finally trust what I see."_
 
 **The Persona:** Same Sarah, two weeks later. She's now checking bmad-ui daily. But today, she's looking for something specific.
 
-**Opening Scene:**  
+**Opening Scene:**
 Sarah opens bmad-ui on Monday morning. She's expecting to see the payment story still "Being Built." But something catches her eye.
 
 The board looks different. Two stories have moved since Friday. The refund story she thought was blocked is now in "Complete." And a new story she's never seen before appeared in "Ready to Start."
 
-**Rising Action:**  
+**Rising Action:**
 She feels a flash of confusion mixed with excitement. The team shipped the refund feature over the weekend? Why didn't she know?
 
 She clicks the refund story. The acceptance criteria are all checked. Evidence shows test screenshots. It's done — actually done, not "Jira-done."
 
 Then she notices the new story. It's a bug fix that emerged during testing. The team added it directly to the sprint. She clicks it, reads the description, understands immediately why it matters.
 
-**Climax:**  
+**Climax:**
 Sarah realizes: She would have missed this entirely in her old workflow. By the time Dave typed up a status update, the sprint would have shifted again. She would have been perpetually behind.
 
 Instead, she's ahead. She knows what changed _before_ standup.
 
-**Resolution:**  
+**Resolution:**
 At standup, Sarah speaks first: _"I see the refund story shipped — great work. And I noticed the new bug fix story. Do we need to adjust the sprint scope?"_
 
 The team looks at her differently. She's not asking for status anymore. She's collaborating in real-time.
@@ -302,17 +336,17 @@ The team looks at her differently. She's not asking for status anymore. She's co
 
 **The Persona:** Marcus is a startup founder. He has three product teams using BMAD. He doesn't attend daily standups, but he needs to know velocity and progress for board meetings and investor updates.
 
-**Opening Scene:**  
+**Opening Scene:**
 Marcus is preparing for a board meeting. He needs to report on product development progress across three teams. His current process: Ask each team lead for a status email. Wait. Compile. Hope the data is current.
 
-**Rising Action:**  
+**Rising Action:**
 His lead developer on Team Alpha mentions bmad-ui. Marcus is intrigued — can he see all three teams in one place?
 
 The developer explains: Each team's repo has bmad-ui. Marcus can pull each repo and run the command to see that team's sprint.
 
 It's not a unified dashboard, but it's trustworthy data directly from BMAD artifacts. No middleman. No stale reports.
 
-**Climax:**  
+**Climax:**
 Marcus spends 15 minutes before his board meeting opening three browser tabs — one for each team's bmad-ui. He sees:
 
 - Team Alpha: 2 stories completed this sprint, 3 in progress
@@ -321,7 +355,7 @@ Marcus spends 15 minutes before his board meeting opening three browser tabs —
 
 He screenshots the boards and adds them to his presentation.
 
-**Resolution:**  
+**Resolution:**
 At the board meeting, an investor asks: _"How do we know these numbers are accurate?"_
 
 Marcus smiles: _"This data comes directly from the files our developers work in. No manual updates. It's the single source of truth."_
@@ -329,6 +363,34 @@ Marcus smiles: _"This data comes directly from the files our developers work in.
 The investor nods. Trust established.
 
 **Journey Requirements:** Multi-project navigation (even if separate instances), trustworthy data for stakeholder communication, screenshot-ready board presentation, no technical intermediary needed.
+
+---
+
+### Journey 5: Dave's Control Panel — Triggering AI Workflows
+
+**The Persona:** Dave, two months into using bmad-ui daily. The board is his mission control. He still switches to his terminal to run BMAD workflows — but that's about to change.
+
+**Opening Scene:**
+Dave opens bmad-ui on Tuesday morning. Three stories sit in "Ready to Start" — authentication, payment hook, and a deprioritized bug fix. He picks authentication. He's done the mental work. Normally he'd switch to his terminal and run the BMAD dev-story workflow. But today there's a new button on the story card: **Implement with AI**.
+
+**Rising Action:**
+He clicks it. A status badge appears in the board header: _"OpenCode: Running — dev-story (auth-feature-story)."_ The workflow is live.
+
+He doesn't leave the board. He reviews acceptance criteria on the next story while the badge cycles. It turns green: _"Complete."_
+
+He clicks into the auth story — status updated to "In Review." He clicks **Code Review**. The badge resets: _"OpenCode: Running — code-review."_
+
+**Climax:**
+Within two hours Dave has triggered three workflows without opening a terminal. The board shows real progress: one story complete and reviewed, one in progress, one queued. He spends cognitive energy on decisions — not context-switching.
+
+When the create-story workflow finishes, a new story card appears instantly in the backlog. Dave clicks in, reviews the AI-generated acceptance criteria, makes a single edit, marks it "Ready."
+
+**Resolution:**
+At standup Dave shows the board. Five cards have moved. Sarah asks: _"Did the AI do all this?"_
+
+Dave: _"It did the execution. I made the decisions."_
+
+**Journey Requirements:** OpenCode server connection indicator in board header, per-story workflow trigger actions (Implement, Code Review, Create Story from epic), real-time workflow status display, abort running workflow without terminal, AI-created stories appear on board automatically.
 
 ---
 
@@ -340,6 +402,7 @@ The investor nods. Trust established.
 | **Sarah's Trust Moment**    | PO-friendly language mapping, single source of truth, no technical knowledge required, story acceptance criteria accessible |
 | **Sarah's First Discovery** | "What's Changed" indicator, evidence/test results attached to stories, real-time board state                                |
 | **Executive's Window**      | Screenshot-ready presentation, multi-project navigation, stakeholder trust through direct file access                       |
+| **Dave's Control Panel**    | OpenCode server connection indicator, per-story workflow trigger buttons, real-time workflow status, abort capability       |
 
 ## Web Application Specific Requirements
 
@@ -405,6 +468,21 @@ The investor nods. Trust established.
 - No persistent state required (view-only MVP)
 - Future: story editing state management (Phase 2)
 
+**Change Detection (FR5, FR12):**
+
+- On each page load, store a snapshot of all story statuses in localStorage keyed by project path
+- On subsequent loads, compare current story statuses against the stored snapshot to identify changed or newly added stories
+- Display a visual indicator (e.g., highlight or badge) on stories whose status differs from the snapshot
+- Reset the snapshot baseline on manual refresh (git pull → browser refresh) so "changed" reflects post-pull delta only
+
+**OpenCode Integration (Phase 2):**
+
+- Connect to `opencode serve` at configurable host/port (default: `127.0.0.1:4096`)
+- Requires `--cors http://localhost:3000` flag when starting `opencode serve` for browser access
+- Use `GET /global/health` for connection status polling
+- Use `POST /session` then `POST /session/:id/command` to trigger BMAD slash commands (`/bmad-bmm-create-story`, `/bmad-mmm-dev-story`, `/bmad-bmm-code-review`)
+- Use `GET /event` SSE stream for real-time workflow status updates
+
 ## Project Scoping & Phased Development
 
 ### MVP Strategy & Philosophy
@@ -443,13 +521,25 @@ The investor nods. Trust established.
 
 ### Post-MVP Features
 
-**Phase 2: PO Empowerment (Months 2-3)**
+**Phase 2: PO Empowerment & Developer Acceleration (Months 2-3)**
+
+**PO Empowerment:**
 
 | Feature           | Description                         | User Value         |
 | ----------------- | ----------------------------------- | ------------------ |
 | Story Creation    | Create stories directly in UI       | PO independence    |
 | Story Editing     | Modify acceptance criteria visually | Faster iteration   |
 | Drag-Drop Reorder | Re-prioritize stories via UI        | Sprint flexibility |
+
+**Developer Acceleration (OpenCode Integration):**
+
+| Feature                 | Description                                                                          | User Value                                    |
+| ----------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------- |
+| OpenCode Connection     | Connect to running `opencode serve` instance; show connection status in board header | Developer knows OpenCode is ready             |
+| AI Story Creation       | Trigger `create-story` workflow from epic view; new story appears on board           | Stories created without leaving the board     |
+| AI Story Implementation | Trigger `dev-story` workflow from story card in "Ready" status                       | Implementation starts in one click            |
+| AI Code Review          | Trigger `code-review` workflow from story card in "In Review" status                 | Code reviewed without terminal context-switch |
+| Workflow Status Monitor | Real-time status badge (queued/running/complete/failed); abort running workflow      | Developer stays in control                    |
 
 **Target:** 5,000 stars/month, 100 projects using bmad-ui
 
@@ -533,7 +623,7 @@ The investor nods. Trust established.
 
 - **FR18:** Users can screenshot the board for stakeholder communication
 - **FR19:** Users can view multiple project instances simultaneously (separate browser tabs)
-- **FR20:** Users can see sprint velocity and progress indicators (Phase 2)
+- **FR20:** Users can see sprint velocity (stories completed vs. planned count per sprint) and progress indicators (percentage of stories complete per epic) as board summary metrics (Phase 2)
 
 ### Story Management (Phase 2)
 
@@ -546,6 +636,16 @@ The investor nods. Trust established.
 - **FR24:** Users can view test evidence attached to completed stories (Phase 3)
 - **FR25:** Users can test features through an integrated staging preview (Phase 3)
 - **FR26:** Users can trigger release decisions with full story context (Phase 3)
+
+### OpenCode Workflow Integration (Phase 2)
+
+- **FR27:** Developers can view the OpenCode server connection status (connected/disconnected) in the board header
+- **FR28:** Developers can configure the OpenCode server address (hostname and port) via UI settings
+- **FR29:** Developers can trigger AI story creation for a selected epic when connected to an active OpenCode server
+- **FR30:** Developers can trigger AI story implementation for a selected story in "Ready" status when connected to an active OpenCode server
+- **FR31:** Developers can trigger AI code review for a selected story in "In Review" status when connected to an active OpenCode server
+- **FR32:** Developers can monitor the status of a triggered OpenCode workflow (queued/running/complete/failed) in real time from the board
+- **FR33:** Developers can abort a running OpenCode workflow from the board without switching to a terminal
 
 ## Non-Functional Requirements
 
@@ -580,6 +680,15 @@ The investor nods. Trust established.
 | **NFR15** | Handle 5+ different BMAD project structures | Variability in project organization |
 | **NFR16** | Graceful error handling for malformed files | User-friendly error messages        |
 | **NFR17** | Support BMAD artifact schema versions 1.x   | Forward/backward compatibility      |
+
+### OpenCode Integration (Phase 2)
+
+| NFR       | Requirement                                                                                                              | Rationale                                               |
+| --------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------- |
+| **NFR25** | OpenCode server health check (`GET /global/health`) response received within 2 seconds of connection attempt             | Reliable connection status display                      |
+| **NFR26** | OpenCode workflow trigger request completes within 1 second for 95th percentile under local loopback network conditions  | Responsive workflow initiation                          |
+| **NFR27** | OpenCode connection loss detected and displayed to user within 3 seconds, with actionable recovery instructions          | Prevents silent workflow failures                       |
+| **NFR28** | OpenCode workflow status updates reflected in board UI within 5 seconds of server-side state change via SSE event stream | Real-time developer awareness during workflow execution |
 
 ### Reliability
 
